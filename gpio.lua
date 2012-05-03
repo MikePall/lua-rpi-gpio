@@ -1,7 +1,7 @@
 -- Raspberry Pi GPIO module.
 -- Written by Mike Pall. Public domain.
 
-local setmt = setmetatable
+local error, tostring, setmt = error, tostring, setmetatable
 local bit = require("bit")
 local band, bor, shl, shr = bit.band, bit.bor, bit.lshift, bit.rshift
 local ffi = require("ffi")
@@ -71,8 +71,8 @@ local function pinerror(t, i)
   error("bad GPIO pin number "..tostring(i), 2)
 end
 local rawmap = {[0]=17, 18, 21, 22, 23, 24, 25, 4}
-local inmap = setmt({[0]=-1,-1,-1,-1,-1,-1,-1,-1,-1}, {__index=pinerror})
-local outmap = setmt({[0]=-1,-1,-1,-1,-1,-1,-1,-1,-1}, {__index=pinerror})
+local inmap = setmt({[0]=-1,-1,-1,-1,-1,-1,-1,-1}, {__index=pinerror})
+local outmap = setmt({[0]=-1,-1,-1,-1,-1,-1,-1,-1}, {__index=pinerror})
 
 pin = setmt({}, {
   __index = function(t, i)
