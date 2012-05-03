@@ -9,6 +9,7 @@ local C = ffi.C
 
 ffi.cdef[[
 int open(const char *path, int flags, int mode);
+int close(int fd);
 void *mmap(void *addr, size_t length, int prot, int flags, int fd, size_t ofs);
 int munmap(void *addr, size_t length);
 int poll(struct pollfd *fds, unsigned long nfds, int timeout);
@@ -21,6 +22,7 @@ local function gpio_open()
   end
   local gp = ffi.cast("volatile int32_t *",
 		      C.mmap(nil, 4096, 3, 1, fd, 0x20200000))
+  C.close(fd)
   if ffi.cast("intptr_t", gp) == -1 then
     error("Mapping of GPIO registers failed")
   end
